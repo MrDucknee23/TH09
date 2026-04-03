@@ -4,18 +4,6 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// deployment
-// '/admin' serve the files from client-admin/build as static files
-app.use('/admin', express.static(path.resolve(__dirname, '../client-admin/build')));
-app.get('/admin/*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client-admin/build', 'index.html'));
-});
-// '/' serves the files from client-customer/build as static files
-app.use('/', express.static(path.resolve(__dirname, '../client-customer/build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client-customer/build', 'index.html'));
-});
-
 // middlewares
 const bodyParser = require('body-parser');
 app.use(bodyParser.json({ limit: '10mb' }));
@@ -29,6 +17,19 @@ app.get('/hello', (req, res) => {
 // apis
 app.use('/api/admin', require('./api/admin.js'));
 app.use('/api/customer', require('./api/customer.js'));
+
+// deployment
+// '/admin' serve the files from client-admin/build as static files
+app.use('/admin', express.static(path.resolve(__dirname, '../client-admin/build')));
+app.get('/admin/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client-admin/build', 'index.html'));
+});
+
+// '/' serves the files from client-customer/build as static files
+app.use('/', express.static(path.resolve(__dirname, '../client-customer/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client-customer/build', 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
