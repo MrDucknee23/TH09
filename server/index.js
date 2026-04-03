@@ -21,7 +21,7 @@ app.use('/api/customer', require('./api/customer.js'));
 // deployment
 // '/admin' serve the files from client-admin/build as static files
 app.use('/admin', express.static(path.resolve(__dirname, '../client-admin/build')));
-app.get('/admin/:path(.*)', (req, res) => {
+app.all(/^\/admin\//, (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client-admin/build', 'index.html'));
 });
 
