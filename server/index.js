@@ -27,7 +27,7 @@ app.all(/^\/admin\//, (req, res) => {
 
 // '/' serves the files from client-customer/build as static files
 app.use('/', express.static(path.resolve(__dirname, '../client-customer/build')));
-app.get('*', (req, res) => {
+app.get(/^\/(?!api\/|admin\/).*/, (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client-customer/build', 'index.html'));
 });
 
